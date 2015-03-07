@@ -7,20 +7,18 @@
 % Author: Moidu thavot.
 
 %%Clear all variables
-
 clear all;
-%%Variables (Edit yourself)
 
-SerialPort='com8'; %serial port
-TimeInterval=0.03;%time interval between each input.
-loop=1500;%count values
+%%Variables (Edit yourself)
+SerialPort='com7'; %serial port
+TimeInterval=0.3;%time interval between each input.
+loop=2000;%count values
+
 %%Set up the serial port object
 s = serial(SerialPort)
 fopen(s);
 
-
-
-time =now;
+RSSI = 0;
 voltage = 0;
 %% Set up the figure 
 figureHandle = figure('NumberTitle','off',...
@@ -37,7 +35,7 @@ axesHandle = axes('Parent',figureHandle,...
 
 hold on;
 
-plotHandle = plot(axesHandle,time,voltage,'.');
+plotHandle = plot(axesHandle,RSSI,voltage,'.');
 
 
 % Create xlabel
@@ -58,16 +56,13 @@ RSSI(1)=0;
 vector(1)=0;
 count = 2;
 k=1;
+
+try
 while ~isequal(count,loop)
- 
+    
     %%Serial data accessing 
     vector(count) = fscanf(s,'%f');
-     RSSI(count) = fscanf(s,'%f');
-   
-
-%      if (vector(count)> 180)
-%          vector(count)=vector(count-1);
-%      end 
+    RSSI(count) = fscanf(s,'%f');
 
     set(plotHandle,'YData',RSSI,'XData',vector);
     set(figureHandle,'Visible','on');
@@ -76,9 +71,16 @@ while ~isequal(count,loop)
     count = count +1;
 end
 
-
+catch
+    warning('Script terminated: Serial connection with %s closed', SerialPort);
+    fclose(s);
+    delete(s);
+    clear s;
+    return;
+end
 
 %% Clean up the serial port
+
 fclose(s);
 delete(s);
 clear s;
