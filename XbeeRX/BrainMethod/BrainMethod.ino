@@ -110,8 +110,6 @@ const float receiveThreshold = 0.98; // Percentage of max RSSI value to signal s
 XBee xbee = XBee();
 Rx16Response rx16 = Rx16Response();
 
-
-
 void setup() {
 
   // initialize serial communications at 9600 bps:
