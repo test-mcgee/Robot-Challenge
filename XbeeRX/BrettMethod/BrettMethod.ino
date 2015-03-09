@@ -1,5 +1,5 @@
 #include <XBee.h>
-#define sampleSize 100
+#define sampleSize 50
 
 XBee xbee = XBee();
 int rssiArray[sampleSize];
