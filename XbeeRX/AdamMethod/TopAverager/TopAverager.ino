@@ -48,7 +48,7 @@ int ProcessData(int * RSSIArray, int * HeadingArray){
     else if(RSSIArray[RSSIMin] > RSSIArray[i]) RSSIMin = RSSIArray[i];
   }
   
-  int Threshold = RSSIMax - (RSSIMax-RSSIMin)*0.04;
+  int Threshold = RSSIMax - (RSSIMax-RSSIMin)*0.1;
   
   for(int i=1; i<Samples; i++){
     if(RSSIArray[i] > Threshold){
